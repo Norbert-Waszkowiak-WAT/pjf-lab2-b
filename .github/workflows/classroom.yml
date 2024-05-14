@@ -1,6 +1,6 @@
 name: Autograding Tests
 'on':
-- workflow_dispatch
+- push
 - repository_dispatch
 permissions:
   checks: write
@@ -13,16 +13,28 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    - name: Test
-      id: test
-      uses: classroom-resources/autograding-python-grader@v1
+    - name: test_zad1
+      id: test_zad1
+      uses: classroom-resources/autograding-command-grader@v1
       with:
-        timeout: 10
-        max-score: 30
+        test-name: test_zad1
         setup-command: ''
+        command: python -m unittest test_zad1.py
+        timeout: 10
+        max-score: 10
+    - name: test_zad2
+      id: test_zad2
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_zad2
+        setup-command: ''
+        command: python -m unittest test_zad2.py
+        timeout: 10
+        max-score: 15
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        TEST_RESULTS: "${{steps.test.outputs.result}}"
+        TEST_ZAD1_RESULTS: "${{steps.test_zad1.outputs.result}}"
+        TEST_ZAD2_RESULTS: "${{steps.test_zad2.outputs.result}}"
       with:
-        runners: test
+        runners: test_zad1,test_zad2
