@@ -13,28 +13,68 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    - name: test_zad1
-      id: test_zad1
+    - name: test_1
+      id: test_1
       uses: classroom-resources/autograding-command-grader@v1
       with:
-        test-name: test_zad1
+        test-name: test_1
         setup-command: ''
         command: python -m unittest test_zad1.py
         timeout: 10
-        max-score: 10
-    - name: test_zad2
-      id: test_zad2
+        max-score: 15
+    - name: test_2/1
+      id: test_2-1
       uses: classroom-resources/autograding-command-grader@v1
       with:
-        test-name: test_zad2
+        test-name: test_2/1
         setup-command: ''
-        command: python -m unittest test_zad2.py
+        command: python -m unittest -k test_1 do_not_modify/test_zad2.py
         timeout: 10
-        max-score: 15
+        max-score: 7
+    - name: test_2/2
+      id: test_2-2
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_2/2
+        setup-command: ''
+        command: python -m unittest -k test_2 do_not_modify/test_zad2.py
+        timeout: 10
+        max-score: 7
+    - name: test_2/3
+      id: test_2-3
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_2/3
+        setup-command: ''
+        command: python -m unittest -k test_3 do_not_modify/test_zad2.py
+        timeout: 10
+        max-score: 7
+    - name: test_2/4
+      id: test_2-4
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_2/4
+        setup-command: ''
+        command: python -m unittest -k test_4 do_not_modify/test_zad2.py
+        timeout: 10
+        max-score: 7
+    - name: test_2/5
+      id: test_2-5
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_2/5
+        setup-command: ''
+        command: python -m unittest -k test_5 do_not_modify/test_zad2.py
+        timeout: 10
+        max-score: 7
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        TEST_ZAD1_RESULTS: "${{steps.test_zad1.outputs.result}}"
-        TEST_ZAD2_RESULTS: "${{steps.test_zad2.outputs.result}}"
+        TEST_1_RESULTS: "${{steps.test_1.outputs.result}}"
+        TEST_2-1_RESULTS: "${{steps.test_2-1.outputs.result}}"
+        TEST_2-2_RESULTS: "${{steps.test_2-2.outputs.result}}"
+        TEST_2-3_RESULTS: "${{steps.test_2-3.outputs.result}}"
+        TEST_2-4_RESULTS: "${{steps.test_2-4.outputs.result}}"
+        TEST_2-5_RESULTS: "${{steps.test_2-5.outputs.result}}"
       with:
-        runners: test_zad1,test_zad2
+        runners: test_1,test_2-1,test_2-2,test_2-3,test_2-4,test_2-5
