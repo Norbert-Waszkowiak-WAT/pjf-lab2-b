@@ -8,10 +8,10 @@ class TestShop(unittest.TestCase):
     def setUp(self):
         self.shop = Shop()
         self.supplier = Supplier(self.shop)
-        self.notebook = Notebook("Notebook")
-        self.bread = Bread("Bread")
-        self.pen = Pen("Pen")
-        self.mineral_water = MineralWater("MineralWater")
+        self.notebook = Notebook()
+        self.bread = Bread()
+        self.pen = Pen()
+        self.mineral_water = MineralWater()
 
     def test_add_product(self):
         self.supplier.deliver_product(self.notebook)
@@ -63,7 +63,7 @@ class TestShop(unittest.TestCase):
         sys.stdout = sys.__stdout__
 
         # Sprawdzenie, czy wydrukowano poprawną listę produktów
-        expected_output = "Notebook\nBread\nPen\nMineralWater"
+        expected_output = "Notebook\nPen\nBread\nMineralWater"
         self.assertEqual(captured_output.getvalue().strip(), expected_output)
 
 
