@@ -66,6 +66,38 @@ class TestShop(unittest.TestCase):
         expected_output = "Notebook\nPen\nBread\nMineralWater"
         self.assertEqual(captured_output.getvalue().strip(), expected_output)
 
+    def test_sell_food_product_returns_product(self):
+        self.supplier.deliver_product(self.bread)
+        sold = self.shop.sell_food_product("Bread")
+        self.assertIs(sold, self.bread)
+
+    def test_sell_paper_product_returns_product(self):
+        self.supplier.deliver_product(self.pen)
+        sold = self.shop.sell_paper_product("Pen")
+        self.assertIs(sold, self.pen)
+
+    def test_sell_food_product_not_found_returns_none(self):
+        result = self.shop.sell_food_product("Bread")
+        self.assertIsNone(result)
+
+    def test_sell_paper_product_not_found_returns_none(self):
+        result = self.shop.sell_paper_product("Notebook")
+        self.assertIsNone(result)
+
+    def test_add_duplicate_product(self):
+        self.supplier.deliver_product(self.notebook)
+        self.supplier.deliver_product(self.notebook)
+        self.assertEqual(self.shop.paper_products.count(self.notebook), 1)
+
+    def test_add_multiple_different_products(self):
+        self.supplier.deliver_product(self.notebook)
+        self.supplier.deliver_product(self.pen)
+        self.supplier.deliver_product(self.bread)
+        self.supplier.deliver_product(self.mineral_water)
+        self.assertIn(self.notebook, self.shop.paper_products)
+        self.assertIn(self.pen, self.shop.paper_products)
+        self.assertIn(self.bread, self.shop.food_products)
+        self.assertIn(self.mineral_water, self.shop.food_products)
 
 if __name__ == '__main__':
     unittest.main()
